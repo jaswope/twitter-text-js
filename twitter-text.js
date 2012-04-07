@@ -393,7 +393,8 @@ if (typeof twttr === "undefined" || twttr === null) {
         preText: "",
         text: twttr.txt.htmlEscape(entity.hashtag),
         postText: "",
-        extraHtml: options.suppressNoFollow ? "" : HTML_ATTR_NO_FOLLOW
+        extraHtml: options.suppressNoFollow ? "" : HTML_ATTR_NO_FOLLOW,
+        htmlAttrs: ""
       };
       for (var k in options) {
         if (options.hasOwnProperty(k)) {
@@ -401,7 +402,7 @@ if (typeof twttr === "undefined" || twttr === null) {
         }
       }
 
-      return stringSupplant("#{before}<a href=\"#{hashtagUrlBase}#{text}\" title=\"##{text}\" class=\"#{urlClass} #{hashtagClass}\"#{extraHtml}>#{hash}#{preText}#{text}#{postText}</a>", d);
+      return stringSupplant("#{before}<a href=\"#{hashtagUrlBase}#{text}\" title=\"##{text}\" class=\"#{urlClass} #{hashtagClass}\"#{extraHtml} #{htmlAttrs}>#{hash}#{preText}#{text}#{postText}</a>", d);
   };
 
   twttr.txt.linkToMentionAndList = function(entity, text, options) {
@@ -413,7 +414,8 @@ if (typeof twttr === "undefined" || twttr === null) {
       slashListname: twttr.txt.htmlEscape(entity.listSlug),
       extraHtml: options.suppressNoFollow ? "" : HTML_ATTR_NO_FOLLOW,
       preChunk: "",
-      postChunk: ""
+      postChunk: "",
+      htmlAttrs: ""
     };
     for (var k in options) {
       if (options.hasOwnProperty(k)) {
@@ -425,12 +427,12 @@ if (typeof twttr === "undefined" || twttr === null) {
       // the link is a list
       var list = d.chunk = stringSupplant("#{user}#{slashListname}", d);
       d.list = twttr.txt.htmlEscape(list.toLowerCase());
-      return stringSupplant("#{before}#{at}<a class=\"#{urlClass} #{listClass}\" href=\"#{listUrlBase}#{list}\"#{extraHtml}>#{preChunk}#{at_before_user}#{chunk}#{postChunk}</a>", d);
+      return stringSupplant("#{before}#{at}<a class=\"#{urlClass} #{listClass}\" href=\"#{listUrlBase}#{list}\"#{extraHtml} #{htmlAttrs}>#{preChunk}#{at_before_user}#{chunk}#{postChunk}</a>", d);
     } else {
       // this is a screen name
       d.chunk = d.user;
       d.dataScreenName = !options.suppressDataScreenName ? stringSupplant("data-screen-name=\"#{chunk}\" ", d) : "";
-      return stringSupplant("#{before}#{at}<a class=\"#{urlClass} #{usernameClass}\" #{dataScreenName}href=\"#{usernameUrlBase}#{chunk}\"#{extraHtml}>#{preChunk}#{at_before_user}#{chunk}#{postChunk}</a>", d);
+      return stringSupplant("#{before}#{at}<a class=\"#{urlClass} #{usernameClass}\" #{dataScreenName}href=\"#{usernameUrlBase}#{chunk}\"#{extraHtml} #{htmlAttrs}>#{preChunk}#{at_before_user}#{chunk}#{postChunk}</a>", d);
     }
   };
 
